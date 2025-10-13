@@ -19,26 +19,15 @@
 #pragma once
 #include <podofo/podofo.h>
 
+#include "font_params.h"
+#include "pdf_file.h"
 namespace opg {
-
-struct font_color {
-  float red;
-  float green;
-  float blue;
-};
-
-struct font_params {
-  std::string font_name_;
-  float font_size_;
-  font_color font_color_;
-  float rotation;
-  float trasperancy;
-  std::string text_;
-};
 
 class watermark {
  private:
   font_params font_params_;
+
+  pdf_file file;
 
   watermark(font_params font) : font_params_(font) {}
 

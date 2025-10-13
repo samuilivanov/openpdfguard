@@ -26,12 +26,12 @@ namespace opg {
 class pdf_guard {
  private:
   std::filesystem::path path_;
-  watermark watermark_;
+  watermark* watermark_;
 
  public:
   void set_output(std::string_view path);
   void convert_to_pdf(std::string_view filename);
-  void set_watermark(const watermark& mark);
+  void set_watermark(watermark* mark);
   void add_watermark();
   void add_password();
 };

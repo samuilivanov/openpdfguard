@@ -31,8 +31,9 @@ void pdf_guard::convert_to_pdf(std::string_view filename) {
   // write to output
 }
 void pdf_guard::add_watermark() {
-  // watermark_.add_text_watermark(const std::string &input_pdf, const std::string &output_pdf, const std::string &text)
+  // watermark_.add_text_watermark(const std::string &input_pdf, const
+  // std::string &output_pdf, const std::string &text)
 }
-void pdf_guard::set_watermark(const watermark& mark) { watermark_ = mark; }
+void pdf_guard::set_watermark(watermark* mark) { watermark_ = mark; }
 void pdf_guard::add_password() {}
 }  // namespace opg

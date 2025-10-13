@@ -11,5 +11,9 @@ int main() {
 
   mark.add_text_watermark("/home/samuil/Downloads/Invoice_56683429.pdf",
                           "output.pdf");
+  mark.add_text_watermark("/home/samuil/Downloads/Invoice_56683429.pdf",
+                          "output.pdf");
+  mark.add_text_watermark("/home/samuil/Downloads/Invoice_56683429.pdf",
+                          "output.pdf");
   return 0;
 }

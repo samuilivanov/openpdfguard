@@ -16,13 +16,23 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "watermark.h"
+#pragma once
 
+#include <string>
 namespace opg {
-void watermark::add_text_watermark(const std::string &input_pdf,
-                                   const std::string &output_pdf) {
-  file.load(input_pdf);
-  file.add_text_watermark(font_params_);
-  file.save(output_pdf);
-}
+
+struct font_color {
+  float red;
+  float green;
+  float blue;
+};
+
+struct font_params {
+  std::string font_name_;
+  float font_size_;
+  font_color font_color_;
+  float rotation;
+  float trasperancy;
+  std::string text_;
+};
 }  // namespace opg

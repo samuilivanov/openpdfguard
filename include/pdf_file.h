@@ -16,13 +16,22 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "watermark.h"
+#pragma once
+#include <podofo/podofo.h>
+
+#include <string_view>
+
+#include "font_params.h"
 
 namespace opg {
-void watermark::add_text_watermark(const std::string &input_pdf,
-                                   const std::string &output_pdf) {
-  file.load(input_pdf);
-  file.add_text_watermark(font_params_);
-  file.save(output_pdf);
-}
+class pdf_file {
+ private:
+  PoDoFo::PdfMemDocument document_;
+
+ public:
+  pdf_file() = default;
+  void load(std::string_view filename);
+  void add_text_watermark(const font_params& params);
+  void save(std::string_view output_pdfs);
+};
 }  // namespace opg
