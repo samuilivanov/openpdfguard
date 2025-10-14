@@ -10,8 +10,8 @@ int main() {
           .build();
 
   pdf_guard gueard;
-  gueard.convert_file("/home/samuil/Downloads/Invoice_56683429.pdf",
-                      "output.pdf", opt);
+  gueard.convert_file("/home/samuil/Downloads/1748955209584.jpg", "output.pdf",
+                      opt);
 
   return 0;
 }

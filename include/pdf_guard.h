@@ -17,8 +17,11 @@
  */
 
 #pragma once
+#include <map>
+#include <memory>
 #include <string_view>
 
+#include "file_to_pdf.h"
 #include "font_params.h"
 #include "pdf_file.h"
 
@@ -80,6 +83,7 @@ struct pdf_opt {
 class pdf_guard {
  private:
   pdf_file file;
+  std::map<std::string, std::unique_ptr<file_to_pdf>> converters;
 
   void add_watermark(std::string_view pdf_filename, font_params params);
 

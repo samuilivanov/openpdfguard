@@ -18,8 +18,10 @@
 
 #include "pdf_guard.h"
 
-#include "font_params.h"
+#include <memory>
 
+#include "font_params.h"
+#include "image_to_pdf.h"
 namespace opg {
 
 void pdf_guard::convert_file(std::string_view input, std::string_view output,
@@ -49,8 +51,8 @@ void pdf_guard::add_encription(std::string_view pdf_filename,
 }
 void pdf_guard::convert_to_pdf(std::string_view input,
                                std::string_view output) {
-  // TODO(samuil)
-  
+  std::unique_ptr<image_to_pdf> converter = std::make_unique<image_to_pdf>();
+  converter->convert(input, output);
 }
 
 }  // namespace opg
