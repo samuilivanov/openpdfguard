@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
+
 #include "pdf_file.h"
 
 #include <string>
@@ -22,7 +23,7 @@
 namespace opg {
 
 void pdf_file::load(std::string_view filename) {
-  document_.Load(filename.data());
+  document_.Load(filename.data(), true);
 }
 
 void pdf_file::add_text_watermark(const font_params &params) {
@@ -67,7 +68,15 @@ void pdf_file::add_text_watermark(const font_params &params) {
     painter.FinishPage();
   }
 }
+
 void pdf_file::save(std::string_view output_pdf) {
-  document_.Write(output_pdf.data());
+  document_.WriteUpdate(output_pdf.data());
+}
+
+void pdf_file::add_encryption(const std::string &userPassword,
+                              const std::string &ownerPassword,
+                              pdf_permissions protection) {
+  int podofo_perms = to_podofo_permissions(protection);
+  document_.SetEncrypted(userPassword, ownerPassword, podofo_perms);
 }
 }  // namespace opg

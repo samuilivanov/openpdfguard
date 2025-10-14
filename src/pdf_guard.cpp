@@ -18,22 +18,39 @@
 
 #include "pdf_guard.h"
 
-#include "watermark.h"
+#include "font_params.h"
 
 namespace opg {
 
-void pdf_guard::set_output(std::string_view path) { path_ = path; }
+void pdf_guard::convert_file(std::string_view input, std::string_view output,
+                             pdf_opt opt) {
+  convert_to_pdf(input, output);
+  if (opt.add_watermark_) {
+    add_watermark(output, opt.font_params_);
+  }
+  if (opt.add_encryption_) {
+    add_encription(output, opt.user_password_, opt.owner_password_, opt.perms_);
+  }
+}
+void pdf_guard::add_watermark(std::string_view pdf_filename,
+                              font_params params) {
+  file.load(pdf_filename);
+  file.add_text_watermark(params);
+  file.save(pdf_filename);
+}
 
-void pdf_guard::convert_to_pdf(std::string_view filename) {
-  //  detect file type
-  // get converter
-  // convert to pdf
-  // write to output
+void pdf_guard::add_encription(std::string_view pdf_filename,
+                               const std::string& userPassword,
+                               const std::string& ownerPassword,
+                               pdf_permissions protection) {
+  file.load(pdf_filename);
+  file.add_encryption(userPassword, ownerPassword, protection);
+  file.save(pdf_filename);
 }
-void pdf_guard::add_watermark() {
-  // watermark_.add_text_watermark(const std::string &input_pdf, const
-  // std::string &output_pdf, const std::string &text)
+void pdf_guard::convert_to_pdf(std::string_view input,
+                               std::string_view output) {
+  // TODO(samuil)
+  
 }
-void pdf_guard::set_watermark(watermark* mark) { watermark_ = mark; }
-void pdf_guard::add_password() {}
+
 }  // namespace opg

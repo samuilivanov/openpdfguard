@@ -1,19 +1,17 @@
 #include <podofo/podofo.h>
 
-#include "watermark.h"
+#include "font_params.h"
+#include "pdf_guard.h"
 using namespace opg;
 int main() {
-  watermark mark = watermark::builder()
-                       .set_text("TEST")
-                       .set_rotation(45)
-                       .set_transparency(0.2)
-                       .build();
+  pdf_opt opt =
+      pdf_opt::builder()
+          .set_watermark(font_params::builder().set_text("test test").build())
+          .build();
 
-  mark.add_text_watermark("/home/samuil/Downloads/Invoice_56683429.pdf",
-                          "output.pdf");
-  mark.add_text_watermark("/home/samuil/Downloads/Invoice_56683429.pdf",
-                          "output.pdf");
-  mark.add_text_watermark("/home/samuil/Downloads/Invoice_56683429.pdf",
-                          "output.pdf");
+  pdf_guard gueard;
+  gueard.convert_file("/home/samuil/Downloads/Invoice_56683429.pdf",
+                      "output.pdf", opt);
+
   return 0;
 }
