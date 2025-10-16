@@ -56,11 +56,11 @@ using namespace css::text;
 namespace opg {
 
 void ms_to_pdf::convert(std::string_view input, std::string_view output) {
-  // TODO(samuil): this should be refactored not ok to have this hardcoded thing here
+  // TODO(samuil): this should be refactored not ok to have this hardcoded thing
+  // here
   ::setenv("URE_MORE_TYPES",
            "file:///usr/lib/libreoffice/program/types/offapi.rdb", 1);
 
-  OUString sOutputFileName;
   OUString sConnectionString(
       "uno:socket,host=localhost,port=2083;urp;StarOffice.ServiceManager");
 
@@ -94,14 +94,14 @@ void ms_to_pdf::convert(std::string_view input, std::string_view output) {
     OUString sInputUrl, sAbsoluteInputUrl, sOutputUrl, sAbsoluteOutputUrl,
         sWorkingDir;
     osl_getProcessWorkingDir(&sWorkingDir.pData);
-    OUString sInputFileName = OUString::createFromAscii(
-        "/usr/lib/libreoffice/sdk/examples/cpp/DocumentLoader/test.odt");
+    OUString sInputFileName = OUString::createFromAscii(input.data());
     osl::FileBase::getFileURLFromSystemPath(sInputFileName, sInputUrl);
     osl::FileBase::getAbsoluteFileURL(sWorkingDir, sInputUrl,
                                       sAbsoluteInputUrl);
     std::cout << sAbsoluteInputUrl << std::endl;
+    OUString sOutputFileName = OUString::createFromAscii(output.data());
 
-    osl::FileBase::getFileURLFromSystemPath("output.pdf", sOutputUrl);
+    osl::FileBase::getFileURLFromSystemPath(sOutputFileName, sOutputUrl);
     osl::FileBase::getAbsoluteFileURL(sWorkingDir, sOutputUrl,
                                       sAbsoluteOutputUrl);
     std::cout << sAbsoluteOutputUrl << std::endl;
@@ -126,8 +126,3 @@ void ms_to_pdf::convert(std::string_view input, std::string_view output) {
   }
 }
 }  // namespace opg
-
-int main(int argc, char** argv) {}
-
-/* vim:set shiftwidth=4 softtabstop=4 expandtab: */
-/* vim:set shiftwidth=4 softtabstop=4 expandtab: */

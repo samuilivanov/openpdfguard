@@ -15,20 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
-#include <podofo/podofo.h>
 
-#include "font_params.h"
-#include "pdf_guard.h"
-using namespace opg;
-int main() {
-  pdf_opt opt =
-      pdf_opt::builder()
-          .set_watermark(font_params::builder().set_text("test test").build())
-          .build();
+#pragma once
 
-  pdf_guard guard;
-  guard.convert_file("/usr/lib/libreoffice/sdk/examples/cpp/DocumentLoader/test.odt", "output.pdf",
-                     opt);
+#include <string>
+namespace opg {
 
-  return 0;
+std::string get_mime_type(const std::string& filename);
 }

@@ -20,10 +20,33 @@
 
 #include <memory>
 
+#include "detect_file.h"
 #include "font_params.h"
 #include "image_to_pdf.h"
+#include "ms_to_pdf.h"
+#include "pdf_file.h"
+#include "pdf_to_pdf.h"
+
 namespace opg {
 
+// TODO(samuil): this needs to be as a config file
+std::unordered_map<std::string, std::shared_ptr<file_to_pdf>>
+load_pdf_converters() {
+  std::unordered_map<std::string, std::shared_ptr<file_to_pdf>> pdf_converters;
+
+  std::shared_ptr<file_to_pdf> pdf = std::make_shared<pdf_to_pdf>();
+  std::shared_ptr<file_to_pdf> doc = std::make_shared<ms_to_pdf>();
+  std::shared_ptr<file_to_pdf> img = std::make_shared<image_to_pdf>();
+
+  // all supported aliases
+  pdf_converters["application/pdf"] = pdf;
+  pdf_converters["application/msword"] = doc;
+  pdf_converters["application/vnd.oasis.opendocument.text"] = doc;
+  pdf_converters["image/jpeg"] = img;
+
+  return pdf_converters;  // return by value
+}
+pdf_guard::pdf_guard() : pdf_converters(load_pdf_converters()) {}
 void pdf_guard::convert_file(std::string_view input, std::string_view output,
                              pdf_opt opt) {
   convert_to_pdf(input, output);
@@ -51,8 +74,8 @@ void pdf_guard::add_encription(std::string_view pdf_filename,
 }
 void pdf_guard::convert_to_pdf(std::string_view input,
                                std::string_view output) {
-  std::unique_ptr<image_to_pdf> converter = std::make_unique<image_to_pdf>();
-  converter->convert(input, output);
+  std::string mime = get_mime_type(input.data());
+  pdf_converters.at(mime)->convert(input, output);
 }
 
 }  // namespace opg

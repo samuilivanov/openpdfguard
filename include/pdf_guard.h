@@ -19,6 +19,7 @@
 #pragma once
 #include <memory>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 #include "file_to_pdf.h"
@@ -26,6 +27,9 @@
 #include "pdf_file.h"
 
 namespace opg {
+
+std::unordered_map<std::string, std::shared_ptr<file_to_pdf>>
+load_pdf_converters();
 
 struct pdf_opt {
   bool add_watermark_ = false;
@@ -83,7 +87,7 @@ struct pdf_opt {
 class pdf_guard {
  private:
   pdf_file file;
-  std::vector<std::unique_ptr<file_to_pdf>> converters;
+  std::unordered_map<std::string, std::shared_ptr<file_to_pdf>> pdf_converters;
 
   void add_watermark(std::string_view pdf_filename, font_params params);
 
@@ -94,7 +98,7 @@ class pdf_guard {
   void convert_to_pdf(std::string_view input, std::string_view output);
 
  public:
-  
+  pdf_guard();
   void convert_file(std::string_view input, std::string_view output,
                     pdf_opt opt);
 };
