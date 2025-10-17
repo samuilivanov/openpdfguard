@@ -62,7 +62,6 @@ struct font_params {
     builder &set_rotation(float rotation) {
       rotation_ = rotation;
       return *this;
-      ;
     }
 
     builder &set_transparency(float transparency) {

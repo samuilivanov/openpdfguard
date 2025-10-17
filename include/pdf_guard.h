@@ -18,9 +18,9 @@
 
 #pragma once
 #include <memory>
+#include <string>
 #include <string_view>
 #include <unordered_map>
-#include <vector>
 
 #include "file_to_pdf.h"
 #include "font_params.h"
@@ -43,7 +43,7 @@ struct pdf_opt {
   // TODO(samuil) reduce the arguments here
   pdf_opt(bool add_watermark, bool add_encryption, std::string user_password,
           std::string owner_password, pdf_permissions perms,
-          font_params font_params)
+          const font_params& font_params)
       : add_watermark_(add_watermark),
         add_encryption_(add_encryption),
         user_password_(user_password),
@@ -56,13 +56,13 @@ struct pdf_opt {
     bool add_watermark = false;
     bool add_encryption = false;
 
-    std::string user_password_;
-    std::string owner_password_;
-    pdf_permissions perms_;
-    font_params font_params_;
+    std::string user_password_{};
+    std::string owner_password_{};
+    pdf_permissions perms_{};
+    font_params font_params_{};
 
    public:
-    builder& set_watermark(font_params params) {
+    builder& set_watermark(const font_params& params) {
       add_watermark = true;
       font_params_ = params;
       return *this;
@@ -77,7 +77,7 @@ struct pdf_opt {
       return *this;
     }
 
-    pdf_opt build() {
+    pdf_opt build() const {
       return pdf_opt{add_watermark,   add_encryption, user_password_,
                      owner_password_, perms_,         font_params_};
     }
@@ -89,7 +89,7 @@ class pdf_guard {
   pdf_file file;
   std::unordered_map<std::string, std::shared_ptr<file_to_pdf>> pdf_converters;
 
-  void add_watermark(std::string_view pdf_filename, font_params params);
+  void add_watermark(std::string_view pdf_filename, const font_params& params);
 
   void add_encription(std::string_view pdf_filename,
                       const std::string& userPassword,
@@ -100,7 +100,7 @@ class pdf_guard {
  public:
   pdf_guard();
   void convert_file(std::string_view input, std::string_view output,
-                    pdf_opt opt);
+                    const pdf_opt& opt);
 };
 // detect file type
 // list of converters

@@ -48,7 +48,7 @@ load_pdf_converters() {
 }
 pdf_guard::pdf_guard() : pdf_converters(load_pdf_converters()) {}
 void pdf_guard::convert_file(std::string_view input, std::string_view output,
-                             pdf_opt opt) {
+                             const pdf_opt& opt) {
   convert_to_pdf(input, output);
   if (opt.add_watermark_) {
     add_watermark(output, opt.font_params_);
@@ -58,7 +58,7 @@ void pdf_guard::convert_file(std::string_view input, std::string_view output,
   }
 }
 void pdf_guard::add_watermark(std::string_view pdf_filename,
-                              font_params params) {
+                              const font_params &params) {
   file.load(pdf_filename);
   file.add_text_watermark(params);
   file.save(pdf_filename);

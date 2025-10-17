@@ -31,7 +31,8 @@ void image_to_pdf::convert(std::string_view input, std::string_view output) {
   const double img_w = static_cast<double>(image.GetWidth());
   const double img_h = static_cast<double>(image.GetHeight());
 
-  PoDoFo::PdfPage* page = doc.CreatePage(PoDoFo::PdfRect(0.0, 0.0, img_w, img_h));
+  PoDoFo::PdfPage* page =
+      doc.CreatePage(PoDoFo::PdfRect(0.0, 0.0, img_w, img_h));
 
   PoDoFo::PdfPainter painter;
   painter.SetPage(page);

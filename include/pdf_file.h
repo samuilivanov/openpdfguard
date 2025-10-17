@@ -19,6 +19,7 @@
 #pragma once
 #include <podofo/podofo.h>
 
+#include <string>
 #include <string_view>
 
 #include "font_params.h"
@@ -97,7 +98,7 @@ class pdf_file {
  public:
   void load(std::string_view filename);
   void add_text_watermark(const font_params& params);
-  void save(std::string_view output_pdfs);
+  void save(std::string_view output_pdf);
   // TODO(samuil):
   // add_image_watermark();
   void add_encryption(const std::string& userPassword,

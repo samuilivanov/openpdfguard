@@ -62,11 +62,11 @@ find_program(CPPCHECK cppcheck)
 if(CPPCHECK)
     # List of source files for cppcheck (could be entire src dir)
     file(GLOB_RECURSE CPP_FILES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
 file(GLOB_RECURSE HEADER_FILES
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*/include/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
 )
 
     set(CPPCHECK_OPTIONS
@@ -83,14 +83,7 @@ file(GLOB_RECURSE HEADER_FILES
     add_custom_target(cppcheck
         COMMAND ${CPPCHECK} ${CPPCHECK_OPTIONS}
                 -I ${CMAKE_CURRENT_SOURCE_DIR}/src
-                -I ${CMAKE_CURRENT_SOURCE_DIR}/src/detect/include
-        -I ${CMAKE_CURRENT_SOURCE_DIR}/src/qm/include
-        -I ${CMAKE_CURRENT_SOURCE_DIR}/src/parse/include
-        -I ${CMAKE_CURRENT_SOURCE_DIR}/src/supervisor/include
-        -I ${CMAKE_CURRENT_SOURCE_DIR}/src/ingestd/include
-        -I ${CMAKE_CURRENT_SOURCE_DIR}/src/global/include
-        -I ${CMAKE_CURRENT_SOURCE_DIR}/src/util/include
-        -I ${CMAKE_CURRENT_SOURCE_DIR}/src/fika/include
+        -I ${CMAKE_CURRENT_SOURCE_DIR}/include
         -I ${CMAKE_CURRENT_SOURCE_DIR}/build
                 ${CPP_FILES} -I ${HEADER_FILES}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -102,11 +95,11 @@ endif()
 
 if(CLANG_TIDY)
 file(GLOB_RECURSE CPP_FILES_CLANG_TIDY
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
 file(GLOB_RECURSE HEADER_FILES_CLANG_TIDY
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*/include/*.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
 )
 
 
@@ -132,11 +125,11 @@ find_program(CPPLINT cpplint
 if(CPPLINT)
     # Reuse the same file lists as cppcheck
     file(GLOB_RECURSE CPP_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/*/src/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
     )
 
     file(GLOB_RECURSE HEADER_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/*/include/*.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
     )
 
     # Combine files

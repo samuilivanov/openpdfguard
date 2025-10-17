@@ -44,15 +44,6 @@
 #include "rtl/ustring.hxx"
 #include "sal/types.h"
 
-using namespace cppu;
-using namespace rtl;
-using namespace css::uno;
-using namespace css::beans;
-using namespace css::bridge;
-using namespace css::frame;
-using namespace css::lang;
-using namespace css::text;
-
 namespace opg {
 
 void ms_to_pdf::convert(std::string_view input, std::string_view output) {
@@ -61,66 +52,75 @@ void ms_to_pdf::convert(std::string_view input, std::string_view output) {
   ::setenv("URE_MORE_TYPES",
            "file:///usr/lib/libreoffice/program/types/offapi.rdb", 1);
 
-  OUString sConnectionString(
+  rtl::OUString sConnectionString(
       "uno:socket,host=localhost,port=2083;urp;StarOffice.ServiceManager");
 
-  Reference<XComponentContext> xComponentContext(
-      defaultBootstrap_InitialComponentContext());
-  Reference<XMultiComponentFactory> xMultiComponentFactoryClient(
-      xComponentContext->getServiceManager());
-  Reference<XInterface> xInterface =
+  css::uno::Reference<css::uno::XComponentContext> xComponentContext(
+      cppu::defaultBootstrap_InitialComponentContext());
+  css::uno::Reference<css::lang::XMultiComponentFactory>
+      xMultiComponentFactoryClient(xComponentContext->getServiceManager());
+  css::uno::Reference<css::uno::XInterface> xInterface =
       xMultiComponentFactoryClient->createInstanceWithContext(
           "com.sun.star.bridge.UnoUrlResolver", xComponentContext);
-  Reference<XUnoUrlResolver> resolver(xInterface, UNO_QUERY);
+  css::uno::Reference<css::bridge::XUnoUrlResolver> resolver(
+      xInterface, css::uno::UNO_QUERY);
   try {
-    xInterface = Reference<XInterface>(resolver->resolve(sConnectionString),
-                                       UNO_QUERY_THROW);
-  } catch (Exception& e) {
+    xInterface = css::uno::Reference<css::uno::XInterface>(
+        resolver->resolve(sConnectionString), css::uno::UNO_QUERY_THROW);
+  } catch (css::uno::Exception& e) {
     std::cout << "Error: cannot establish a connection using '"
               << sConnectionString << "'" << std::endl
               << e.Message << std::endl;
     std::exit(1);
   }
 
-  Reference<XPropertySet> xPropSet(xInterface, UNO_QUERY);
+  css::uno::Reference<css::beans::XPropertySet> xPropSet(xInterface,
+                                                         css::uno::UNO_QUERY);
   xPropSet->getPropertyValue("DefaultContext") >>= xComponentContext;
-  Reference<XMultiComponentFactory> xMultiComponentFactoryServer(
-      xComponentContext->getServiceManager());
-  Reference<XDesktop2> xComponentLoader = Desktop::create(xComponentContext);
-  Sequence<PropertyValue> loadProperties(1);
+  css::uno::Reference<css::lang::XMultiComponentFactory>
+      xMultiComponentFactoryServer(xComponentContext->getServiceManager());
+  css::uno::Reference<css::frame::XDesktop2> xComponentLoader =
+      css::frame::Desktop::create(xComponentContext);
+  css::uno::Sequence<css::beans::PropertyValue> loadProperties(1);
   loadProperties[0].Name = "Hidden";
   loadProperties[0].Value <<= true;
   try {
-    OUString sInputUrl, sAbsoluteInputUrl, sOutputUrl, sAbsoluteOutputUrl,
+    rtl::OUString sInputUrl, sAbsoluteInputUrl, sOutputUrl, sAbsoluteOutputUrl,
         sWorkingDir;
     osl_getProcessWorkingDir(&sWorkingDir.pData);
-    OUString sInputFileName = OUString::createFromAscii(input.data());
+    rtl::OUString sInputFileName = rtl::OUString::createFromAscii(input.data());
     osl::FileBase::getFileURLFromSystemPath(sInputFileName, sInputUrl);
     osl::FileBase::getAbsoluteFileURL(sWorkingDir, sInputUrl,
                                       sAbsoluteInputUrl);
     std::cout << sAbsoluteInputUrl << std::endl;
-    OUString sOutputFileName = OUString::createFromAscii(output.data());
+    rtl::OUString sOutputFileName =
+        rtl::OUString::createFromAscii(output.data());
 
     osl::FileBase::getFileURLFromSystemPath(sOutputFileName, sOutputUrl);
     osl::FileBase::getAbsoluteFileURL(sWorkingDir, sOutputUrl,
                                       sAbsoluteOutputUrl);
     std::cout << sAbsoluteOutputUrl << std::endl;
 
-    Reference<XComponent> xComponent = xComponentLoader->loadComponentFromURL(
-        sAbsoluteInputUrl, "_blank", 0, loadProperties);
-    Reference<XTextDocument> xDocument(xComponent, UNO_QUERY_THROW);
-    Reference<XStorable> xStorable(xDocument, UNO_QUERY_THROW);
-    Sequence<PropertyValue> storeProps(3);
+    css::uno::Reference<css::lang::XComponent> xComponent =
+        xComponentLoader->loadComponentFromURL(sAbsoluteInputUrl, "_blank", 0,
+                                               loadProperties);
+    css::uno::Reference<css::text::XTextDocument> xDocument(
+        xComponent, css::uno::UNO_QUERY_THROW);
+    css::uno::Reference<css::frame::XStorable> xStorable(
+        xDocument, css::uno::UNO_QUERY_THROW);
+    css::uno::Sequence<css::beans::PropertyValue> storeProps(3);
     storeProps[0].Name = "FilterName";
-    storeProps[0].Value <<= OUString("writer_pdf_Export");
+    storeProps[0].Value <<= rtl::OUString("writer_pdf_Export");
     storeProps[1].Name = "Overwrite";
     storeProps[1].Value <<= true;
     storeProps[2].Name = "SelectPdfVersion";
     storeProps[2].Value <<= sal_Int32(1);
     xStorable->storeToURL(sAbsoluteOutputUrl, storeProps);
-    Reference<XComponent>::query(xMultiComponentFactoryClient)->dispose();
+    css::uno::Reference<css::lang::XComponent>::query(
+        xMultiComponentFactoryClient)
+        ->dispose();
     std::cout << "Output output.pdf generated." << std::endl;
-  } catch (Exception& e) {
+  } catch (const css::uno::Exception& e) {
     std::cout << "Can not open the input file." << std::endl
               << e.Message << std::endl;
   }
