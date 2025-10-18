@@ -18,7 +18,6 @@
 
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <filesystem>
-#include <fstream>
 
 #include "doctest/doctest.h"
 #include "pdf_file.h"
@@ -54,19 +53,18 @@ TEST_CASE("pdf_file load and save") {
 
   CHECK_NOTHROW(file.add_text_watermark(params));
 
-  CHECK_NOTHROW(file.save(output_pdf_filename));
+  CHECK_NOTHROW(file.save());
 
   // Check if output file exists
-  CHECK(std::filesystem::exists(output_pdf_filename));
+  CHECK(std::filesystem::exists(test_pdf_filename));
 
   // Cleanup
   std::filesystem::remove(test_pdf_filename);
-  std::filesystem::remove(output_pdf_filename);
 }
 
 TEST_CASE("pdf_file load invalid file") {
   pdf_file file;
-  CHECK_THROWS(file.load("non_existing.pdf"));
+  CHECK_FALSE(file.load("non_existing.pdf"));
 }
 
 TEST_CASE("pdf_file save without load") {
@@ -81,8 +79,25 @@ TEST_CASE("pdf_file save without load") {
 
   CHECK_NOTHROW(file.add_text_watermark(params));
 
-  // Saving without loading creates a new empty document in memory
   CHECK_NOTHROW(file.save(output_pdf_filename));
   CHECK(std::filesystem::exists(output_pdf_filename));
   std::filesystem::remove(output_pdf_filename);
+}
+
+TEST_CASE("pdf_file add_encryption") {
+  create_dummy_pdf(test_pdf_filename);
+
+  pdf_file file;
+
+  REQUIRE(file.load(test_pdf_filename) == true);
+
+  pdf_permissions perms;
+  perms = pdf_permissions::print;
+
+  file.add_encryption("userpass", "ownerpass", perms);
+  REQUIRE(file.save() == true);
+
+  // Optional: reload with wrong password and expect failure
+  pdf_file test;
+  REQUIRE(test.load(test_pdf_filename) == false);  // user password required
 }

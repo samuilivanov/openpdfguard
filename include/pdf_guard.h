@@ -41,9 +41,9 @@ struct pdf_opt {
   font_params font_params_;
 
   // TODO(samuil) reduce the arguments here
-  pdf_opt(bool add_watermark, bool add_encryption, std::string user_password,
-          std::string owner_password, pdf_permissions perms,
-          const font_params& font_params)
+  pdf_opt(bool add_watermark, bool add_encryption,
+          const std::string& user_password, const std::string& owner_password,
+          const pdf_permissions& perms, const font_params& font_params)
       : add_watermark_(add_watermark),
         add_encryption_(add_encryption),
         user_password_(user_password),
@@ -69,7 +69,7 @@ struct pdf_opt {
     }
     builder& set_encryption(const std::string& user_password,
                             const std::string& owner_password,
-                            pdf_permissions permitions) {
+                            const pdf_permissions& permitions) {
       add_encryption = true;
       user_password_ = user_password;
       owner_password_ = owner_password;
@@ -87,19 +87,19 @@ struct pdf_opt {
 
 class pdf_guard {
  private:
-  pdf_file file;
   std::unordered_map<std::string, std::shared_ptr<file_to_pdf>> pdf_converters;
-
-  void add_watermark(std::string_view pdf_filename, const font_params& params);
-
-  void add_encription(std::string_view pdf_filename,
-                      const std::string& userPassword,
-                      const std::string& ownerPassword,
-                      pdf_permissions protection);
-  void convert_to_pdf(std::string_view input, std::string_view output);
 
  public:
   pdf_guard();
+  void add_watermark(std::string_view pdf_filename, const font_params& params);
+
+  void add_encryption(std::string_view pdf_filename,
+                      const std::string& userPassword,
+                      const std::string& ownerPassword,
+                      pdf_permissions protection);
+
+  void convert_to_pdf(std::string_view input, std::string_view output);
+
   void convert_file(std::string_view input, std::string_view output,
                     const pdf_opt& opt);
 };

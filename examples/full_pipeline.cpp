@@ -16,16 +16,20 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pdf_to_pdf.h"
+#include <iostream>
 
-#include <podofo/podofo.h>
+#include "font_params.h"
+#include "pdf_guard.h"
 
-#include "pdf_file.h"
-namespace opg {
+int main() {
+  opg::pdf_guard guard;
+  opg::font_params params = opg::font_params::builder()
+                                .set_text("SAMPLE WATERMARK")
+                                .set_font_size(12)
+                                .build();
 
-void pdf_to_pdf::convert(std::string_view input, std::string_view output) {
-  pdf_file file;
-  file.load(input);
-  file.save(output);
+  opg::pdf_opt opt(true, true, "user", "owner", {}, params);
+  guard.convert_file("input.docx", "output.pdf", opt);
+
+  std::cout << "Full pipeline complete!\n";
 }
-}  // namespace opg

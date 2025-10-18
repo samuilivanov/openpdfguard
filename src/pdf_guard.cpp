@@ -47,35 +47,51 @@ load_pdf_converters() {
   return pdf_converters;  // return by value
 }
 pdf_guard::pdf_guard() : pdf_converters(load_pdf_converters()) {}
+
 void pdf_guard::convert_file(std::string_view input, std::string_view output,
                              const pdf_opt& opt) {
   convert_to_pdf(input, output);
-  if (opt.add_watermark_) {
-    add_watermark(output, opt.font_params_);
+  pdf_file file;
+  if (file.load(output)) {
+    if (opt.add_watermark_) {
+      file.add_text_watermark(opt.font_params_);
+    }
+    if (opt.add_encryption_) {
+      file.add_encryption(opt.user_password_, opt.owner_password_, opt.perms_);
+    }
+    file.save();
   }
-  if (opt.add_encryption_) {
-    add_encription(output, opt.user_password_, opt.owner_password_, opt.perms_);
-  }
-}
-void pdf_guard::add_watermark(std::string_view pdf_filename,
-                              const font_params &params) {
-  file.load(pdf_filename);
-  file.add_text_watermark(params);
-  file.save(pdf_filename);
 }
 
-void pdf_guard::add_encription(std::string_view pdf_filename,
+void pdf_guard::add_watermark(std::string_view pdf_filename,
+                              const font_params& params) {
+  pdf_file file;
+  if (file.load(pdf_filename)) {
+    file.add_text_watermark(params);
+    file.save();
+  }
+}
+
+void pdf_guard::add_encryption(std::string_view pdf_filename,
                                const std::string& userPassword,
                                const std::string& ownerPassword,
                                pdf_permissions protection) {
-  file.load(pdf_filename);
-  file.add_encryption(userPassword, ownerPassword, protection);
-  file.save(pdf_filename);
+  pdf_file file;
+
+  if (file.load(pdf_filename)) {
+    file.add_encryption(userPassword, ownerPassword, protection);
+    file.save();
+  }
 }
+
 void pdf_guard::convert_to_pdf(std::string_view input,
                                std::string_view output) {
-  std::string mime = get_mime_type(input.data());
-  pdf_converters.at(mime)->convert(input, output);
+  const std::string mime = get_mime_type(input.data());
+  auto it = pdf_converters.find(mime);
+  if (it == pdf_converters.end()) {
+    throw std::runtime_error("Unsupported file type: " + mime);
+  }
+  it->second->convert(input, output);
 }
 
 }  // namespace opg

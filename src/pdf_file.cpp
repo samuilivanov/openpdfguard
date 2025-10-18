@@ -24,8 +24,23 @@
 #include <string_view>
 namespace opg {
 
-void pdf_file::load(std::string_view filename) {
-  document_.Load(filename.data(), true);
+// TODO(samuil): add the option to open with password
+bool pdf_file::load(std::string_view filename) {
+  default_filename_ = filename;
+  try {
+    document_.Load(filename.data(), true);
+  } catch (const PoDoFo::PdfError &e) {  // catch by reference
+    std::cerr << "PoDoFo error: " << e.GetError() << " (" << e.what() << ")"
+              << std::endl;
+    return false;
+  } catch (const std::exception &e) {
+    std::cerr << "Standard exception: " << e.what() << std::endl;
+    return false;
+  } catch (...) {
+    std::cerr << "Unknown exception occurred" << std::endl;
+    return false;
+  }
+  return true;
 }
 
 void pdf_file::add_text_watermark(const font_params &params) {
@@ -70,9 +85,30 @@ void pdf_file::add_text_watermark(const font_params &params) {
     painter.FinishPage();
   }
 }
+void pdf_file::save(std::string_view filename) {
+  document_.Write(filename.data());
+}
 
-void pdf_file::save(std::string_view output_pdf) {
-  document_.WriteUpdate(output_pdf.data());
+bool pdf_file::save() {
+  if (default_filename_->empty()) {
+    return false;
+  }
+
+  try {
+    document_.WriteUpdate(default_filename_.value().data());
+
+  } catch (const PoDoFo::PdfError &e) {  // catch by reference
+    std::cerr << "PoDoFo error: " << e.GetError() << " (" << e.what() << ")"
+              << std::endl;
+    return false;
+  } catch (const std::exception &e) {
+    std::cerr << "Standard exception: " << e.what() << std::endl;
+    return false;
+  } catch (...) {
+    std::cerr << "Unknown exception occurred" << std::endl;
+    return false;
+  }
+  return true;
 }
 
 void pdf_file::add_encryption(const std::string &userPassword,
@@ -83,11 +119,11 @@ void pdf_file::add_encryption(const std::string &userPassword,
     document_.SetEncrypted(userPassword, ownerPassword, podofo_perms,
                            PoDoFo::PdfEncrypt::ePdfEncryptAlgorithm_AESV3R6,
                            PoDoFo::PdfEncrypt::ePdfKeyLength_256);
-  } catch (PoDoFo::PdfError &e) {  // catch by reference
+  } catch (const PoDoFo::PdfError &e) {  // catch by reference
     std::cerr << "PoDoFo error: " << e.GetError() << " (" << e.what() << ")"
               << std::endl;
     e.PrintErrorMsg();
-  } catch (std::exception &e) {
+  } catch (const std::exception &e) {
     std::cerr << "Standard exception: " << e.what() << std::endl;
   } catch (...) {
     std::cerr << "Unknown exception occurred" << std::endl;

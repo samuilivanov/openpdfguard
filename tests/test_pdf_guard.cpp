@@ -16,11 +16,46 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "font_params.h"
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
 #include <doctest/doctest.h>
 
+#include "pdf_file.h"
+#include "pdf_guard.h"
+
+namespace {
+const char* test_pdf_filename = "test.pdf";
+const char* output_pdf_filename = "output.pdf";
+
+void create_dummy_pdf(const char* filename) {
+  PoDoFo::PdfMemDocument doc;
+  PoDoFo::PdfPage* page = doc.CreatePage(
+      PoDoFo::PdfPage::CreateStandardPageSize(PoDoFo::ePdfPageSize_A4));
+  doc.Write(filename);
+}
+}  // namespace
+
 namespace opg {
-  TEST_CASE("CommandMessage default constructor") {
+TEST_CASE("pdf_guard can convert, watermark, and encrypt a PDF") {
+  create_dummy_pdf(test_pdf_filename);
+
+  pdf_guard guard;
+
+  font_params params =
+      font_params::builder().set_text("UNIT TEST").set_font_size(14).build();
+  pdf_permissions perms = pdf_permissions::print;
+  pdf_opt opt(/*add_watermark=*/true,
+              /*add_encryption=*/true,
+              /*user=*/"userpass",
+              /*owner=*/"ownerpass",
+              /*permissions=*/perms, params);
+
+  REQUIRE_NOTHROW(
+      guard.convert_file(test_pdf_filename, output_pdf_filename, opt));
+
+  pdf_file result;
+  // NO pass passed
+  CHECK_FALSE(result.load(output_pdf_filename));
 }
-}
+}  // namespace opg

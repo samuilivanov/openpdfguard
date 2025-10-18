@@ -16,16 +16,20 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "pdf_to_pdf.h"
+#include <iostream>
 
-#include <podofo/podofo.h>
+#include "pdf_guard.h"
+#include "util.h"
 
-#include "pdf_file.h"
-namespace opg {
-
-void pdf_to_pdf::convert(std::string_view input, std::string_view output) {
-  pdf_file file;
-  file.load(input);
-  file.save(output);
+int main() {
+  try {
+    auto filename = opg::util::create_dummy_pdf();
+    opg::pdf_guard guard;
+    guard.convert_to_pdf(filename, "output.pdf");
+    std::cout << "Conversion successful!\n";
+  } catch (const std::exception &e) {
+    std::cerr << "Error: " << e.what() << "\n";
+    return 1;
+  }
+  return 0;
 }
-}  // namespace opg
