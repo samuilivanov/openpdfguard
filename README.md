@@ -11,6 +11,36 @@ mkdir build && cd build
 cmake ..
 make -j$(nproc)
 ```
+## Usage CLI
+
+```bash
+openpdfguard input.docx
+=== OpenPdfGuard ===
+Input: input.docx
+Add watermark? [y/N]: y
+Watermark text (CONFIDENTIAL): test
+Font (Helvetica): Arial
+Font size (24): 50
+Rotation degrees (0): 40
+Image path (leave empty for text): 
+Adding watermark: 'test' font=Arial size=50 rot=40 ... done.
+Encrypt PDF? [y/N]: n
+
+All tasks completed successfully.
+Output file: input.pdf
+```
+
+## Usage as library
+
+```cpp
+int main() {
+  opg::pdf_guard guard;
+  opg::font_params params =
+      opg::font_params::builder().set_text("Test").build();
+  opg::pdf_opt opt = opg::pdf_opt::builder().set_watermark(params).build();
+  guard.convert_file("path_to_file", "path_for_output", opt);
+}
+```
 
 ## Contributing
 
