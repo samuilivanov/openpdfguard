@@ -27,6 +27,7 @@
 namespace opg {
 
 enum class pdf_permissions : uint32_t {
+  none = 0x00000000,
   print = 0x00000001,
   edit = 0x00000002,
   copy = 0x00000004,

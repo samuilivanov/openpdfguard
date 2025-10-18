@@ -70,6 +70,7 @@ struct pdf_opt {
     builder& set_encryption(const std::string& user_password,
                             const std::string& owner_password,
                             pdf_permissions permitions) {
+      add_encryption = true;
       user_password_ = user_password;
       owner_password_ = owner_password;
       perms_ = permitions;

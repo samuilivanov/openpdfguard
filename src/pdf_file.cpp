@@ -18,6 +18,8 @@
 
 #include "pdf_file.h"
 
+#include <podofo/base/PdfEncrypt.h>
+
 #include <string>
 #include <string_view>
 namespace opg {
@@ -77,6 +79,18 @@ void pdf_file::add_encryption(const std::string &userPassword,
                               const std::string &ownerPassword,
                               pdf_permissions protection) {
   int podofo_perms = to_podofo_permissions(protection);
-  document_.SetEncrypted(userPassword, ownerPassword, podofo_perms);
+  try {
+    document_.SetEncrypted(userPassword, ownerPassword, podofo_perms,
+                           PoDoFo::PdfEncrypt::ePdfEncryptAlgorithm_AESV3R6,
+                           PoDoFo::PdfEncrypt::ePdfKeyLength_256);
+  } catch (PoDoFo::PdfError &e) {  // catch by reference
+    std::cerr << "PoDoFo error: " << e.GetError() << " (" << e.what() << ")"
+              << std::endl;
+    e.PrintErrorMsg();
+  } catch (std::exception &e) {
+    std::cerr << "Standard exception: " << e.what() << std::endl;
+  } catch (...) {
+    std::cerr << "Unknown exception occurred" << std::endl;
+  }
 }
 }  // namespace opg
