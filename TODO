@@ -1,0 +1,54 @@
+# TODO / Roadmap
+
+**Goal:** Make the core pipeline robust and modular.
+
+- [ ] Refactor core pipeline:
+  - [ ] Separate internal functions:
+    - [ ] `convert_to_pdf(input, output)`
+    - [ ] `add_watermark(pdf_file, options)`
+    - [ ] `encrypt_pdf(pdf_file, options)`
+- [ ] Make CLI mirror the same pipeline (single command + optional modular use).
+- [ ] Add clear README examples for:
+  - [ ] Converting Word, LibreOffice, and images to PDF.
+  - [ ] Applying watermarks.
+  - [ ] Encrypting PDFs.
+- [ ] Stabilize and test against crashes (PoDoFo, LibreOffice runtime).
+- [ ] Outcome: Stable, flexible foundation.
+
+**Goal:** Add lightweight PDF operations inspired by Antenna House.
+
+- [ ] Implement PDF merging (combine multiple PDFs).
+- [ ] Implement page extraction and reordering.
+- [ ] Add optional PDF flattening for reliable watermarks/encryption.
+- [ ] Outcome: Library becomes a true multi-step PDF tool.
+
+**Goal:** Improve watermark/encryption features.
+
+### Watermarking
+- [ ] Add positioning options (top, center, bottom, margins, tiling).
+- [ ] Support rotation, opacity, and font styles.
+- [ ] Add image watermark support (size, position, transparency).
+
+### Encryption
+- [ ] Support multiple algorithms (AES128, AES256).
+- [ ] Implement granular permissions (print, edit, copy, fill, annotate).
+- [ ] Separate handling of owner/user passwords.
+- [ ] Outcome: Strong security and branding capabilities.
+
+
+**Goal:** Advance features.
+
+- [ ] Implement text extraction for indexing/search.
+- [ ] Add optional PDF/A compliance conversion.
+- [ ] Extend CLI flexibility:
+  - [ ] Add modular flags: `--convert`, `--watermark`, `--encrypt`.
+  - [ ] Allow skipping steps dynamically.
+- [ ] Add batch processing (directories of files).
+- [ ] Outcome: Versatile PDF automation pipeline.
+
+## Optional Stretch Goals
+- [ ] Output format conversions: PDF → SVG, XPS, Word.
+- [ ] Internationalization (Unicode/CJK font support in watermarking).
+- [ ] Integration examples:
+  - [ ] Python bindings.
+  - [ ] Docker-based CLI image.
