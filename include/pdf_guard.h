@@ -90,16 +90,17 @@ class pdf_guard {
   pdf_file file;
   std::unordered_map<std::string, std::shared_ptr<file_to_pdf>> pdf_converters;
 
+ public:
+  pdf_guard();
   void add_watermark(std::string_view pdf_filename, const font_params& params);
 
-  void add_encription(std::string_view pdf_filename,
+  void add_encryption(std::string_view pdf_filename,
                       const std::string& userPassword,
                       const std::string& ownerPassword,
                       pdf_permissions protection);
+
   void convert_to_pdf(std::string_view input, std::string_view output);
 
- public:
-  pdf_guard();
   void convert_file(std::string_view input, std::string_view output,
                     const pdf_opt& opt);
 };
