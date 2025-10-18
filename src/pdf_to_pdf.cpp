@@ -19,9 +19,13 @@
 #include "pdf_to_pdf.h"
 
 #include <podofo/podofo.h>
+
+#include "pdf_file.h"
 namespace opg {
 
 void pdf_to_pdf::convert(std::string_view input, std::string_view output) {
-  // We don't convert things here
+  pdf_file file;
+  file.load(input);
+  file.save(output);
 }
 }  // namespace opg

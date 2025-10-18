@@ -19,6 +19,7 @@
 #pragma once
 #include <podofo/podofo.h>
 
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -95,11 +96,13 @@ inline int to_podofo_permissions(pdf_permissions perms) {
 class pdf_file {
  private:
   PoDoFo::PdfMemDocument document_;
+  std::optional<std::string> default_filename_;  // optional
 
  public:
-  void load(std::string_view filename);
+  bool load(std::string_view filename);
   void add_text_watermark(const font_params& params);
-  void save(std::string_view output_pdf);
+  bool save();
+  void save(std::string_view filename);
   // TODO(samuil):
   // add_image_watermark();
   void add_encryption(const std::string& userPassword,
