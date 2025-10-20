@@ -16,10 +16,37 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cli/cli_handler.h"
+#pragma once
 
-int main(int argc, char **argv) {
-  opg::cli::cli_handler handler;
-  handler.run(argc, argv);
-  return 0;
-}
+#include <CLI/CLI.hpp>
+#include <filesystem>
+#include <string>
+namespace opg::cli {
+
+class cli_handler {
+ public:
+  cli_handler();
+  int run(int argc, char **argv);
+
+ private:
+  CLI::App app_;
+  std::filesystem::path input_file_;
+  std::filesystem::path output_dir_;
+
+  // watermark options
+  std::string watermark_text_;
+  std::string watermark_font_;
+  int watermark_size_;
+  int watermark_rotation_;
+
+  // encrypt options
+  std::string user_password_;
+  std::string owner_password_;
+  std::string perms_;
+
+  void setup_global_options();
+  void setup_convert_command();
+  void setup_watermark_command();
+  void setup_encrypt_command();
+};
+}  // namespace opg::cli
