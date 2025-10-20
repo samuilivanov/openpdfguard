@@ -8,12 +8,22 @@
     - [x] `add_watermark(pdf_file, options)`
     - [x] `encrypt_pdf(pdf_file, options)`
 - [x] Make CLI mirror the same pipeline (single command + optional modular use).
+- [ ] Add LibreOffice headless mode handling:
+  - [ ] Automatically start/stop LibreOffice service when needed
+  - [ ] Or prompt user to start it manually if already running externally
+  - [ ] Detect and handle LibreOffice runtime errors gracefully
 - [ ] Add clear README examples for:
-  - [ ] Converting Word, LibreOffice, and images to PDF.
-  - [ ] Applying watermarks.
-  - [ ] Encrypting PDFs.
-- [ ] Stabilize and test against crashes (PoDoFo, LibreOffice runtime).
-- [ ] Outcome: Stable, flexible foundation.
+  - [ ] Converting Word, LibreOffice, and image files to PDF
+  - [ ] Applying watermarks to PDFs
+  - [ ] Encrypting PDFs with user/owner passwords
+- [ ] Update README with dependency list:
+  - [ ] PoDoFo (PDF processing)
+  - [ ] CLI11 (command-line interface)
+  - [ ] LibreOffice (document conversion, headless mode)
+- [ ] Stabilize core pipeline and test against crashes
+  - [ ] Ensure LibreOffice runtime is robust and cleanly shuts down
+- [ ] Outcome: Stable and flexible foundation ready for first release
+
 
 **Goal:** Add lightweight PDF operations inspired by Antenna House.
 
