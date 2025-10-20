@@ -96,7 +96,6 @@ bool pdf_file::save() {
 
   try {
     document_.WriteUpdate(default_filename_.value().data());
-
   } catch (const PoDoFo::PdfError &e) {  // catch by reference
     std::cerr << "PoDoFo error: " << e.GetError() << " (" << e.what() << ")"
               << std::endl;
