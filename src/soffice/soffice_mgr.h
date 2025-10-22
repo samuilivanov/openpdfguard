@@ -16,13 +16,35 @@
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "cli/cli_handler.h"
-#include "pdf_guard.h"
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <unistd.h>
 
-int main(int argc, char **argv) {
-  opg::initialize();
-  opg::cli::cli_handler handler;
-  handler.run(argc, argv);
-  opg::shutdown();
-  return 0;
-}
+#include <boost/process.hpp>
+#include <optional>
+
+#pragma once
+
+namespace opg::soffice {
+
+class soffice_mgr {
+ private:
+  std::optional<boost::process::child> process_;
+  bool started_by_me_ = false;
+  soffice_mgr() = default;
+
+ public:
+  static soffice_mgr& instance() {
+    static soffice_mgr inst;
+    return inst;
+  }
+
+  ~soffice_mgr() { shutdown(); }
+
+  bool is_running() const;
+
+  bool start();
+
+  void shutdown();
+};
+}  // namespace opg::soffice

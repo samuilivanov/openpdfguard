@@ -28,6 +28,9 @@
 
 namespace opg {
 
+void initialize();
+void shutdown();
+
 std::unordered_map<std::string, std::shared_ptr<file_to_pdf>>
 load_pdf_converters();
 
