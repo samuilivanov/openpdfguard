@@ -26,8 +26,12 @@
 #include "ms_to_pdf.h"
 #include "pdf_file.h"
 #include "pdf_to_pdf.h"
+#include "soffice/soffice_mgr.h"
 
 namespace opg {
+
+void initialize() { soffice::soffice_mgr::instance().start(); }
+void shutdown() { soffice::soffice_mgr::instance().shutdown(); }
 
 // TODO(samuil): this needs to be as a config file
 std::unordered_map<std::string, std::shared_ptr<file_to_pdf>>
