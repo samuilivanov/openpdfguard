@@ -15,10 +15,10 @@
   - [x] Converting Word, LibreOffice, and image files to PDF
   - [x] Applying watermarks to PDFs
   - [x] Encrypting PDFs with user/owner passwords
-- [ ] Update README with dependency list:
-  - [ ] PoDoFo (PDF processing)
-  - [ ] CLI11 (command-line interface)
-  - [ ] LibreOffice (document conversion, headless mode)
+- [x] Update README with dependency list:
+  - [x] PoDoFo (PDF processing)
+  - [x] CLI11 (command-line interface)
+  - [x] LibreOffice (document conversion, headless mode)
 - [ ] Stabilize core pipeline and test against crashes
   - [ ] Ensure LibreOffice runtime is robust and cleanly shuts down
 - [ ] Document and implement all LibreOffice conversions to PDF

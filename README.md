@@ -4,6 +4,7 @@ OpenPdfGuard is a c++ library and application that converts files to PDF format,
 
 ## Compiling
 
+
 ```bash
 git clone https://github.com/yourname/OpenPdfGuard.git
 cd openpdfguard
@@ -11,6 +12,16 @@ mkdir build && cd build
 cmake ..
 make -j$(nproc)
 ```
+## Dependencies
+
+OpenPdfGuard requires the following libraries and tools:
+
+For now, ensure the following libraries and tools are installed on your system:
+- **PoDoFo** - PDF parsing, creation, and encryption
+- **CLI11** - Command-line argument parsing
+- **LibreOffice** - Document-to-PDF conversion (headless mode)
+- **Boost** - Used for starting libreoffice headless mode
+
 ## Usage CLI
 
 ### Converting Files to PDF
