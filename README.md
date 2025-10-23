@@ -13,22 +13,67 @@ make -j$(nproc)
 ```
 ## Usage CLI
 
-```bash
-openpdfguard input.docx
-=== OpenPdfGuard ===
-Input: input.docx
-Add watermark? [y/N]: y
-Watermark text (CONFIDENTIAL): test
-Font (Helvetica): Arial
-Font size (24): 50
-Rotation degrees (0): 40
-Image path (leave empty for text): 
-Adding watermark: 'test' font=Arial size=50 rot=40 ... done.
-Encrypt PDF? [y/N]: n
+### Converting Files to PDF
 
-All tasks completed successfully.
-Output file: input.pdf
+Convert Word, LibreOffice, or image files to PDF format.
+
+`./openpdfguard -i /path/to/input.docx -o /path/to/output/ convert`
+
+Example output:
+```bash
+./openpdfguard -i /home/user/file-sample_100kB.doc -o /home/user/ convert
+[convert] input: "/home/user/file-sample_100kB.doc" -> output dir: "/home/user/"
+file:///home/home/user/file-sample_100kB.doc
+file:///home/home/user/file-sample_100kB.pdf
 ```
+### Supported formats:
+```
+Word/Office: .doc, .docx, .odt
+Presentations: .ppt, .pptx, .odp
+Spreadsheets: .xls, .xlsx, .ods
+Images: .jpg, .png, .tiff, .bmp
+```
+
+### Applying Watermarks to PDFs
+
+Add text or image watermarks to existing PDFs.
+```bash
+./openpdfguard -i /path/to/input.pdf -o /path/to/output/ watermark \
+  --text "CONFIDENTIAL" \
+  --font "Helvetica" \
+  --size 48 \
+  --rotation 30
+```
+Example output:
+```
+./openpdfguard -i path/to/input.pdf -o /home/samuil/Downloads/ watermark -t "TEST"
+[watermark] text: 'TEST', font: Helvetica, size: 12, rotation: 45
+```
+### Encrypting PDFs
+
+Encrypt PDFs with user and owner passwords.
+```
+./openpdfguard -i /path/to/input.pdf -o /path/to/output/ encrypt \
+  --user-password "view123" \
+  --owner-password "admin456"
+```
+
+### Chaining Operations
+
+You can chain operations manually in sequence:
+```
+./openpdfguard -i /path/to/contract.docx -o /path/to/output/ convert
+./openpdfguard -i /path/to/output/contract.pdf -o /path/to/output/ watermark \
+  --text "TOP SECRET" --font "Arial" --size 42 --rotation 45
+./openpdfguard -i /path/to/output/contract_watermarked.pdf -o /path/to/output/ encrypt \
+  --user-password "readonly" --owner-password "fullaccess"
+```
+#### Notes
+-i (input) and -o (output) must always come before the subcommand.
+
+Each subcommand (convert, watermark, encrypt) can be run independently.
+
+Output PDFs are placed in the directory specified by -o.
 
 ## Usage as library
 

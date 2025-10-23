@@ -11,10 +11,10 @@
 - [x] Add LibreOffice headless mode handling:
   - [x] Automatically start/stop LibreOffice service when needed
   - [x] Detect and handle LibreOffice runtime errors gracefully
-- [ ] Add clear README examples for:
-  - [ ] Converting Word, LibreOffice, and image files to PDF
-  - [ ] Applying watermarks to PDFs
-  - [ ] Encrypting PDFs with user/owner passwords
+- [x] Add clear README examples for:
+  - [x] Converting Word, LibreOffice, and image files to PDF
+  - [x] Applying watermarks to PDFs
+  - [x] Encrypting PDFs with user/owner passwords
 - [ ] Update README with dependency list:
   - [ ] PoDoFo (PDF processing)
   - [ ] CLI11 (command-line interface)
