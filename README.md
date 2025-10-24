@@ -6,7 +6,7 @@ OpenPdfGuard is a c++ library and application that converts files to PDF format,
 
 
 ```bash
-git clone https://github.com/yourname/OpenPdfGuard.git
+git clone https://github.com/samuilivanov/openpdfguard.git
 cd openpdfguard
 mkdir build && cd build
 cmake ..
