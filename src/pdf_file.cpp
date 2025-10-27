@@ -61,7 +61,7 @@ void pdf_file::add_text_watermark(const font_params &params) {
     double y = rect.GetHeight() / 2.0;
 
     painter.Save();
-    double angle_rad = params.rotation * M_PI / 180.0;
+    double angle_rad = params.rotation_ * M_PI / 180.0;
     double cos_a = cos(angle_rad);
     double sin_a = sin(angle_rad);
 

@@ -47,7 +47,7 @@ TEST_CASE("pdf_file load and save") {
   params.font_name_ = "Helvetica";
   params.font_size_ = 24.0f;
   params.font_color_ = {1.0f, 0.0f, 0.0f};
-  params.rotation = 0.0f;
+  params.rotation_ = 0.0f;
   params.trasperancy = 0.5f;
   params.text_ = "Test Watermark";
 
@@ -73,7 +73,7 @@ TEST_CASE("pdf_file save without load") {
   params.font_name_ = "Arial";
   params.font_size_ = 12.0f;
   params.font_color_ = {0, 0, 0};
-  params.rotation = 0;
+  params.rotation_ = 0;
   params.trasperancy = 1;
   params.text_ = "Hello";
 

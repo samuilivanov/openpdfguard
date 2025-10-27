@@ -28,7 +28,10 @@
 #include <rtl/process.h>
 #include <sal/main.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-conversion"
 #include <com/sun/star/beans/XPropertySet.hpp>
+#pragma GCC diagnostic pop
 #include <com/sun/star/bridge/XUnoUrlResolver.hpp>
 #include <com/sun/star/frame/Desktop.hpp>
 #include <com/sun/star/frame/XComponentLoader.hpp>

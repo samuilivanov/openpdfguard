@@ -19,11 +19,12 @@
 #include "soffice_mgr.h"
 
 #include <boost/process/search_path.hpp>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 
 namespace {
-bool is_soffice_running(int port = 2083) {
+bool is_soffice_running(uint16_t port = 2083) {
   int sock = socket(AF_INET, SOCK_STREAM, 0);
   if (sock < 0) {
     return false;

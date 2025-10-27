@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <string>
 
@@ -49,7 +49,7 @@ TEST_CASE("font_params default and assignment") {
   CHECK(params.font_color_.red == 0.0f);
   CHECK(params.font_color_.green == 0.0f);
   CHECK(params.font_color_.blue == 0.0f);
-  CHECK(params.rotation == 0.0f);
+  CHECK(params.rotation_ == 0.0f);
   CHECK(params.trasperancy == 0.0f);
   CHECK(params.text_.empty());
 
@@ -57,7 +57,7 @@ TEST_CASE("font_params default and assignment") {
   params.font_name_ = "Helvetica";
   params.font_size_ = 12.5f;
   params.font_color_ = {0.1f, 0.2f, 0.3f};
-  params.rotation = 45.0f;
+  params.rotation_ = 45.0f;
   params.trasperancy = 0.2f;
   params.text_ = "Hello";
 
@@ -66,7 +66,7 @@ TEST_CASE("font_params default and assignment") {
   CHECK(params.font_color_.red == 0.1f);
   CHECK(params.font_color_.green == 0.2f);
   CHECK(params.font_color_.blue == 0.3f);
-  CHECK(params.rotation == 45.0f);
+  CHECK(params.rotation_ == 45.0f);
   CHECK(params.trasperancy == 0.2f);
   CHECK(params.text_ == "Hello");
 }

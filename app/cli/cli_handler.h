@@ -36,8 +36,8 @@ class cli_handler {
   // watermark options
   std::string watermark_text_;
   std::string watermark_font_;
-  int watermark_size_;
-  int watermark_rotation_;
+  float watermark_size_;
+  float watermark_rotation_;
 
   // encrypt options
   std::string user_password_;

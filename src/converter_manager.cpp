@@ -17,9 +17,9 @@
  */
 
 #include "converter_manager.h"
+namespace {
 
-namespace opg {
-std::string converter_manager::normalize_mime(const std::string &mime) {
+std::string normalize_mime(const std::string &mime) {
   if (mime == "application/x-pdf") return "application/pdf";
   if (mime == "application/octet-stream") return "application/pdf";
   if (mime == "image/x-tiff") return "image/tiff";
@@ -27,6 +27,9 @@ std::string converter_manager::normalize_mime(const std::string &mime) {
 
   return mime;
 }
+}  // namespace
+
+namespace opg {
 
 converter_manager::converter_manager() {
   // Create one instance per supported type

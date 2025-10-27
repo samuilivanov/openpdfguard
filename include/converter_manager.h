@@ -37,8 +37,6 @@ class converter_manager {
 
   std::unordered_map<std::string, file_to_pdf *> converters_;
 
-  std::string normalize_mime(const std::string &mime);
-
  public:
   converter_manager();
 

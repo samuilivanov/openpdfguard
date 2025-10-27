@@ -32,7 +32,7 @@ struct font_params {
   std::string font_name_;
   float font_size_;
   font_color font_color_;
-  float rotation;
+  float rotation_;
   float trasperancy;
   std::string text_;
 
@@ -40,7 +40,7 @@ struct font_params {
    private:
     std::string font_name_ = "Helvetica";
     float font_size_{64};
-    font_color font_color_ = {0.6, 0.6, 0.6};
+    font_color font_color_ = {0.6f, 0.6f, 0.6f};
     float rotation_{0};
     float transparency_{1};
     std::string text_;
