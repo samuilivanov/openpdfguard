@@ -22,6 +22,7 @@
 #include <string_view>
 #include <unordered_map>
 
+#include "converter_manager.h"
 #include "file_to_pdf.h"
 #include "font_params.h"
 #include "pdf_file.h"
@@ -30,9 +31,6 @@ namespace opg {
 
 void initialize();
 void shutdown();
-
-std::unordered_map<std::string, std::shared_ptr<file_to_pdf>>
-load_pdf_converters();
 
 struct pdf_opt {
   bool add_watermark_ = false;
@@ -90,10 +88,10 @@ struct pdf_opt {
 
 class pdf_guard {
  private:
-  std::unordered_map<std::string, std::shared_ptr<file_to_pdf>> pdf_converters;
+  converter_manager converter_manager_;
 
  public:
-  pdf_guard();
+  pdf_guard() = default;
   void add_watermark(std::string_view pdf_filename, const font_params& params);
 
   void add_encryption(std::string_view pdf_filename,
