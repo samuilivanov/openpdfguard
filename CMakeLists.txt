@@ -50,6 +50,18 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 find_package(Boost REQUIRED COMPONENTS system filesystem)
 
+add_compile_options(
+  -Wall
+  -Wextra
+  -Wpedantic
+  -Wshadow
+  -Wnon-virtual-dtor
+  -Wcast-align
+  -Wunused
+  -Woverloaded-virtual
+  -Wconversion
+  -Wsign-conversion
+)
 add_subdirectory(src)
 add_subdirectory(src/soffice)
 add_subdirectory(app)
