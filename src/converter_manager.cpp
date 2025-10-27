@@ -22,7 +22,9 @@ namespace opg {
 std::string converter_manager::normalize_mime(const std::string &mime) {
   if (mime == "application/x-pdf") return "application/pdf";
   if (mime == "application/octet-stream") return "application/pdf";
+  if (mime == "image/x-tiff") return "image/tiff";
   if (mime.find("text/") == 0) return "text/plain";
+
   return mime;
 }
 
@@ -30,10 +32,39 @@ converter_manager::converter_manager() {
   // Create one instance per supported type
   converters_["application/pdf"] = &pdf_converter_;
   converters_["application/msword"] = &doc_converter_;
+  converters_["application/doc"] = &doc_converter_;
+  converters_["application/ms-doc"] = &doc_converter_;
+  converters_
+      ["application/"
+       "vnd.openxmlformats-officedocument.wordprocessingml.document"] =
+          &doc_converter_;
   converters_["application/vnd.oasis.opendocument.text"] = &doc_converter_;
+  converters_["application/excel"] = &doc_converter_;
+  converters_["application/vnd.ms-excel"] = &doc_converter_;
+  converters_["application/x-excel"] = &doc_converter_;
+  converters_["application/x-msexcel"] = &doc_converter_;
+  converters_
+      ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"] =
+          &doc_converter_;
+  converters_["application/mspowerpoint"] = &doc_converter_;
+  converters_["application/powerpoint"] = &doc_converter_;
+  converters_["application/vnd.ms-powerpoint"] = &doc_converter_;
+  converters_["application/x-mspowerpoint"] = &doc_converter_;
+  converters_
+      ["application/"
+       "vnd.openxmlformats-officedocument.presentationml.presentation"] =
+          &doc_converter_;
+  converters_["application/vnd.oasis.opendocument.spreadsheet"] =
+      &doc_converter_;
+  converters_["application/vnd.oasis.opendocument.presentation"] =
+      &doc_converter_;
+  converters_["application/rtf"] = &doc_converter_;
   converters_["text/plain"] = &doc_converter_;
   converters_["image/jpeg"] = &image_converter_;
+  converters_["image/pjpeg"] = &image_converter_;
   converters_["image/png"] = &image_converter_;
+  converters_["image/gif"] = &image_converter_;
+  converters_["image/tiff"] = &image_converter_;
 }
 
 file_to_pdf *converter_manager::get_converter(const std::string &mime) {
