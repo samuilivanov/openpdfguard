@@ -23,13 +23,13 @@
   - [ ] Ensure LibreOffice runtime is robust and cleanly shuts down
 - [x] Document and implement all LibreOffice conversions to PDF
   - [x] List all document types LibreOffice can convert (doc, docx, xls, xlsx, ppt, pptx, odt, ods, odp, rtf, txt, etc.)
-  - [ ] Map each input file type to PDF conversion using soffice
-  - [ ] Include MIME types for each document type for automatic converter selection
+  - [x] Map each input file type to PDF conversion using soffice
+  - [x] Include MIME types for each document type for automatic converter selection
 - [x] List all image types supported by ImageMagick (jpg, jpeg, png, gif, tiff, bmp, etc.)
-  - [ ] Map each image MIME type to PDF conversion
-- [ ] Enhance converter selection logic
-  - [ ] Use MIME type mapping to automatically select the appropriate converter (LibreOffice vs ImageMagick)
-  - [ ] Gracefully handle unsupported file types with clear error messages
+  - [x] Map each image MIME type to PDF conversion
+- [x] Enhance converter selection logic
+  - [x] Use MIME type mapping to automatically select the appropriate converter (LibreOffice vs ImageMagick)
+  - [x] Gracefully handle unsupported file types with clear error messages
 - [ ] Outcome: Stable and flexible foundation ready for first release
 
 **Goal:** Add lightweight PDF operations inspired by Antenna House.
